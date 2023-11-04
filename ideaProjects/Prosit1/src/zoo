@@ -1,1 +1,85 @@
+public class zoo {
+    private Animal[] animals;
+    private String name;
+    private String city;
+    private int nbrCages;
+    private int animalCount;
 
+    public zoo(String name, String city, int nbrCages) {
+        this.name = name;
+        this.city = city;
+        this.nbrCages = nbrCages;
+        this.animals = new Animal[nbrCages];
+        this.animalCount = 0;
+    }
+    public boolean addAnimal(Animal animal) {
+        if (animalCount >= nbrCages) {
+            System.out.println("Zoo is full. Cannot add more animals.");
+            return false; // Zoo is full, cannot add more animals
+        }
+
+        // Check if the animal already exists in the zoo
+        for (int i = 0; i < animalCount; i++) {
+            if (animals[i].getName().equals(animal.getName())) {
+                System.out.println("Animal with the same name already exists in the zoo.");
+                return false; // Animal with the same name already exists
+            }
+        }
+
+        // If the animal is unique and there is space, add it to the zoo
+        animals[animalCount] = animal;
+        animalCount++;
+        System.out.println("Animal added to the zoo.");
+        return true; // Animal added successfully
+    }
+
+    public void displayZoo() {
+        System.out.println("Zoo Name: " + name);
+        System.out.println("City: " + city);
+        System.out.println("Number of Cages: " + nbrCages);
+    }
+    @Override
+    public String toString() {
+        return "Zoo Name: " + name + ", City: " + city + ", Number of Cages: " + nbrCages;
+    }
+
+    public void displayAnimals() {
+        System.out.println("Animals in the zoo:");
+        for (int i = 0; i < animalCount; i++) {
+            System.out.println(animals[i]);
+        }
+    }
+    public int searchAnimal(Animal animalToSearch) {
+        for (int i = 0; i < animalCount; i++) {
+            if (animals[i].getName().equals(animalToSearch.getName())) {
+                return i; // Animal found, return its index
+            }
+        }
+        return -1; // Animal not found
+    }
+    public boolean removeAnimal(Animal animalToRemove) {
+        int indexToRemove = -1;
+
+        // Find the index of the animal to remove
+        for (int i = 0; i < animalCount; i++) {
+            if (animals[i].getName().equals(animalToRemove.getName())) {
+                indexToRemove = i;
+                break;
+            }
+        }
+
+        if (indexToRemove == -1) {
+            System.out.println("Animal not found in the zoo.");
+            return false; // Animal not found, removal failed
+        }
+
+        // Remove the animal by shifting remaining animals
+        for (int i = indexToRemove; i < animalCount - 1; i++) {
+            animals[i] = animals[i + 1];
+        }
+        animalCount--;
+
+        System.out.println("Animal removed from the zoo.");
+        return true; // Animal removed successfully
+    }
+}
